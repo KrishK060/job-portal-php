@@ -3,5 +3,15 @@
 {% block title %}Hello HomePageController!{% endblock %}
 
 {% block body %}
-<h1>hello</h1>
+ <h1>Welcome to the job portal app. Please Register or Login yourself here</h1>
+
+ {% if app.user %}
+    <div class="mb-3">
+        <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">Logout</a>
+ {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm">Login</a>
+        <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-sm">Register</a>
+        
+    </div>
+ {% endif %}
 {% endblock %}

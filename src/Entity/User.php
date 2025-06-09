@@ -48,6 +48,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lastname;
 
+    /**
+     * @ORM\OneToOne(targetEntity=JobSeekerProfile::class, mappedBy="userId", cascade={"persist", "remove"})
+     */
+    private $jobSeekerProfile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,7 +95,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+       
 
         return array_unique($roles);
     }
@@ -157,6 +162,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getJobSeekerProfile(): ?JobSeekerProfile
+    {
+        return $this->jobSeekerProfile;
+    }
+
+    public function setJobSeekerProfile(JobSeekerProfile $jobSeekerProfile): self
+    {
+        // set the owning side of the relation if necessary
+        if ($jobSeekerProfile->getUserId() !== $this) {
+            $jobSeekerProfile->setUserId($this);
+        }
+
+        $this->jobSeekerProfile = $jobSeekerProfile;
 
         return $this;
     }
