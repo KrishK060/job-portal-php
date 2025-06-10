@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobPost index{% endblock %}
+
+{% block body %}
+    <h1>JobPost index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Salary</th>
+                <th>Jobtype</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job_post in job_posts %}
+            <tr>
+                <td>{{ job_post.id }}</td>
+                <td>{{ job_post.title }}</td>
+                <td>{{ job_post.description }}</td>
+                <td>{{ job_post.location }}</td>
+                <td>{{ job_post.salary }}</td>
+                <td>{{ job_post.jobtype }}</td>
+                <td>{{ job_post.deadline ? job_post.deadline|date('Y-m-d') : '' }}</td>
+                <td>{{ job_post.status }}</td>
+                <td>{{ job_post.createdAt ? job_post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_job_post_show', {'id': job_post.id}) }}">show</a>
+                    <a href="{{ path('app_job_post_edit', {'id': job_post.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_job_post_new') }}">Create new</a>
+{% endblock %}

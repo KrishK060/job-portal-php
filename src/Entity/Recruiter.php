@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecruiterRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,16 @@ class Recruiter
      * @ORM\Column(type="string", length=255)
      */
     private $About;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobPost::class, mappedBy="employer")
+     */
+    private $jobPosts;
+
+    public function __construct()
+    {
+        $this->jobPosts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,5 +101,40 @@ class Recruiter
         $this->About = $About;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, JobPost>
+     */
+    public function getJobPosts(): Collection
+    {
+        return $this->jobPosts;
+    }
+
+    public function addJobPost(JobPost $jobPost): self
+    {
+        if (!$this->jobPosts->contains($jobPost)) {
+            $this->jobPosts[] = $jobPost;
+            $jobPost->setEmployer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobPost(JobPost $jobPost): self
+    {
+        if ($this->jobPosts->removeElement($jobPost)) {
+            // set the owning side to null (unless already changed)
+            if ($jobPost->getEmployer() === $this) {
+                $jobPost->setEmployer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getCompanyName    () . ' ';
     }
 }

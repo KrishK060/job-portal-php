@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobPost{% endblock %}
+
+{% block body %}
+    <h1>JobPost</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ job_post.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ job_post.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ job_post.description }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ job_post.location }}</td>
+            </tr>
+            <tr>
+                <th>Salary</th>
+                <td>{{ job_post.salary }}</td>
+            </tr>
+            <tr>
+                <th>Jobtype</th>
+                <td>{{ job_post.jobtype }}</td>
+            </tr>
+            <tr>
+                <th>Deadline</th>
+                <td>{{ job_post.deadline ? job_post.deadline|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ job_post.status }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ job_post.createdAt ? job_post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_job_post_index') }}">back to list</a>
+
+    <a href="{{ path('app_job_post_edit', {'id': job_post.id}) }}">edit</a>
+
+    {{ include('job_post/_delete_form.html.twig') }}
+{% endblock %}
