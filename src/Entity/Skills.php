@@ -21,7 +21,7 @@ class Skills
      * @ORM\ManyToOne(targetEntity=JobSeekerProfile::class, inversedBy="skills")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $profileId;
+    private $profile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,14 +33,14 @@ class Skills
         return $this->id;
     }
 
-    public function getProfileId(): ?JobSeekerProfile
+    public function getProfile(): ?JobSeekerProfile
     {
-        return $this->profileId;
+        return $this->profile;
     }
 
-    public function setProfileId(?JobSeekerProfile $profileId): self
+    public function setProfile(?JobSeekerProfile $profile): self
     {
-        $this->profileId = $profileId;
+        $this->profile = $profile;
 
         return $this;
     }

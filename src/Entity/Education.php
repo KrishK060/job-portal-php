@@ -21,7 +21,7 @@ class Education
      * @ORM\ManyToOne(targetEntity=JobSeekerProfile::class, inversedBy="education")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $profileId;
+    private $profile;
 
     /**
      * @ORM\Column(type="date")
@@ -33,19 +33,24 @@ class Education
      */
     private $enddate;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $degree;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProfileId(): ?JobSeekerProfile
+    public function getProfile(): ?JobSeekerProfile
     {
-        return $this->profileId;
+        return $this->profile;
     }
 
-    public function setProfileId(?JobSeekerProfile $profileId): self
+    public function setProfile(?JobSeekerProfile $profile): self
     {
-        $this->profileId = $profileId;
+        $this->profile = $profile;
 
         return $this;
     }
@@ -70,6 +75,18 @@ class Education
     public function setEnddate(?\DateTimeInterface $enddate): self
     {
         $this->enddate = $enddate;
+
+        return $this;
+    }
+
+    public function getDegree(): ?string
+    {
+        return $this->degree;
+    }
+
+    public function setDegree(string $degree): self
+    {
+        $this->degree = $degree;
 
         return $this;
     }

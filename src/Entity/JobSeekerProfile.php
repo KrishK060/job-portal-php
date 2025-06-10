@@ -23,8 +23,8 @@ class JobSeekerProfile
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="jobSeekerProfile", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userId;
-
+    private $user;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -41,17 +41,17 @@ class JobSeekerProfile
     private $jobType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="profileId")
+     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="profile")
      */
     private $education;
 
     /**
-     * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="profileId")
+     * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="profile")
      */
     private $experiences;
 
     /**
-     * @ORM\OneToMany(targetEntity=Skills::class, mappedBy="profileId")
+     * @ORM\OneToMany(targetEntity=Skills::class, mappedBy="profile")
      */
     private $skills;
 
@@ -67,17 +67,17 @@ class JobSeekerProfile
         return $this->id;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(User $userId): self
+    public function setUser(User $user): self
     {
-        $this->userId = $userId;
-
+        $this->user = $user;
         return $this;
     }
+
 
     public function getFullName(): ?string
     {
@@ -127,7 +127,7 @@ class JobSeekerProfile
     {
         if (!$this->education->contains($education)) {
             $this->education[] = $education;
-            $education->setProfileId($this);
+            $education->setProfile($this);
         }
 
         return $this;
@@ -137,8 +137,8 @@ class JobSeekerProfile
     {
         if ($this->education->removeElement($education)) {
             // set the owning side to null (unless already changed)
-            if ($education->getProfileId() === $this) {
-                $education->setProfileId(null);
+            if ($education->getProfile() === $this) {
+                $education->setProfile(null);
             }
         }
 
@@ -157,7 +157,7 @@ class JobSeekerProfile
     {
         if (!$this->experiences->contains($experience)) {
             $this->experiences[] = $experience;
-            $experience->setProfileId($this);
+            $experience->setProfile($this);
         }
 
         return $this;
@@ -167,8 +167,8 @@ class JobSeekerProfile
     {
         if ($this->experiences->removeElement($experience)) {
             // set the owning side to null (unless already changed)
-            if ($experience->getProfileId() === $this) {
-                $experience->setProfileId(null);
+            if ($experience->getProfile() === $this) {
+                $experience->setProfile(null);
             }
         }
 
@@ -187,7 +187,7 @@ class JobSeekerProfile
     {
         if (!$this->skills->contains($skill)) {
             $this->skills[] = $skill;
-            $skill->setProfileId($this);
+            $skill->setProfile($this);
         }
 
         return $this;
@@ -197,11 +197,16 @@ class JobSeekerProfile
     {
         if ($this->skills->removeElement($skill)) {
             // set the owning side to null (unless already changed)
-            if ($skill->getProfileId() === $this) {
-                $skill->setProfileId(null);
+            if ($skill->getProfile() === $this) {
+                $skill->setProfile(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFullName() . ' ';
     }
 }

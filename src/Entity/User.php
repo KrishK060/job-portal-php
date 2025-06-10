@@ -49,9 +49,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastname;
 
     /**
-     * @ORM\OneToOne(targetEntity=JobSeekerProfile::class, mappedBy="userId", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=JobSeekerProfile::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $jobSeekerProfile;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Recruiter::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $recruiter;
 
     public function getId(): ?int
     {
@@ -66,7 +71,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -95,15 +99,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-       
-
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -118,12 +119,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
+     * Returning a salt is only needed if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
@@ -138,8 +138,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // Clear any temporary sensitive data if needed
     }
 
     public function getFirstname(): ?string
@@ -150,7 +149,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
-
         return $this;
     }
 
@@ -162,7 +160,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
         return $this;
     }
 
@@ -173,12 +170,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setJobSeekerProfile(JobSeekerProfile $jobSeekerProfile): self
     {
-        // set the owning side of the relation if necessary
-        if ($jobSeekerProfile->getUserId() !== $this) {
-            $jobSeekerProfile->setUserId($this);
+        if ($jobSeekerProfile->getUser() !== $this) {
+            $jobSeekerProfile->setUser($this);
         }
 
         $this->jobSeekerProfile = $jobSeekerProfile;
+        return $this;
+    }
+
+    /**
+     * This allows the User object to be converted to string,
+     * which is required by Symfony when using User in templates or forms.
+     */
+    public function __toString(): string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname(); // or return $this->getEmail();
+    }
+
+    public function getRecruiter(): ?Recruiter
+    {
+        return $this->recruiter;
+    }
+
+    public function setRecruiter(Recruiter $recruiter): self
+    {
+        // set the owning side of the relation if necessary
+        if ($recruiter->getUser() !== $this) {
+            $recruiter->setUser($this);
+        }
+
+        $this->recruiter = $recruiter;
 
         return $this;
     }

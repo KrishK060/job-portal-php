@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobSeekerProfile index{% endblock %}
+
+{% block body %}
+    <h1>JobSeekerProfile index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FullName</th>
+                <th>Resume</th>
+                <th>JobType</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job_seeker_profile in job_seeker_profiles %}
+            <tr>
+                <td>{{ job_seeker_profile.id }}</td>
+                <td>{{ job_seeker_profile.fullName }}</td>
+                <td>{{ job_seeker_profile.resume }}</td>
+                <td>{{ job_seeker_profile.jobType }}</td>
+                <td>
+                    <a href="{{ path('app_job_seeker_profile_show', {'id': job_seeker_profile.id}) }}">show</a>
+                    <a href="{{ path('app_job_seeker_profile_edit', {'id': job_seeker_profile.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_jobseeker') }}"><-HomePage</a>
+    <a href="{{ path('app_job_seeker_profile_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New JobSeekerProfile{% endblock %}
+
+{% block body %}
+    <h1>Create new JobSeekerProfile</h1>
+
+    {{ include('job_seeker_profile/_form.html.twig') }}
+
+    <a href="{{ path('app_job_seeker_profile_index') }}">back to list</a>
+{% endblock %}

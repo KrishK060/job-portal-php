@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Education{% endblock %}
+
+{% block body %}
+    <h1>Education</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ education.id }}</td>
+            </tr>
+            <tr>
+                <th>Startdate</th>
+                <td>{{ education.startdate ? education.startdate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Enddate</th>
+                <td>{{ education.enddate ? education.enddate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Degree</th>
+                <td>{{ education.degree }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_education_index') }}">back to list</a>
+
+    <a href="{{ path('app_education_edit', {'id': education.id}) }}">edit</a>
+
+    {{ include('education/_delete_form.html.twig') }}
+{% endblock %}
