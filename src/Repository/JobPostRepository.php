@@ -39,6 +39,8 @@ class JobPostRepository extends ServiceEntityRepository
         }
     }
 
+    // public function
+
 //    /**
 //     * @return JobPost[] Returns an array of JobPost objects
 //     */

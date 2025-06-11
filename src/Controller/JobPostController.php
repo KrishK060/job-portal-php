@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Applications;
 use App\Entity\JobPost;
 use App\Form\JobPostType;
 use App\Repository\JobPostRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,10 +86,33 @@ class JobPostController extends AbstractController
      */
     public function delete(Request $request, JobPost $jobPost, JobPostRepository $jobPostRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$jobPost->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $jobPost->getId(), $request->request->get('_token'))) {
             $jobPostRepository->remove($jobPost, true);
         }
 
         return $this->redirectToRoute('app_job_post_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    /**
+     * @Route("/{id}/apply", name="app_job_post_apply", methods={"GET"})
+     */
+    public function apply(JobPost $jobPost,EntityManagerInterface $entityManager): Response
+    {
+
+        $application = new Applications;
+        $application->setJob($jobPost);
+        $application->setJobseeker($this->getUser()->getJobSeekerProfile());
+        $application->setAppliedAt(new DateTimeImmutable());
+        $application->setStatus('Applied');
+        
+
+        $entityManager->persist($application);
+        $entityManager->flush();
+
+
+
+
+        return $this->redirectToRoute('app_application');
     }
 }

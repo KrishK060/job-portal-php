@@ -55,11 +55,17 @@ class JobSeekerProfile
      */
     private $skills;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Applications::class, mappedBy="jobseeker")
+     */
+    private $applications;
+
     public function __construct()
     {
         $this->education = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->skills = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,5 +214,35 @@ class JobSeekerProfile
     public function __toString(): string
     {
         return $this->getFullName() . ' ';
+    }
+
+    /**
+     * @return Collection<int, Applications>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Applications $application): self
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications[] = $application;
+            $application->setJobseeker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Applications $application): self
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getJobseeker() === $this) {
+                $application->setJobseeker(null);
+            }
+        }
+
+        return $this;
     }
 }
