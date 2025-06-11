@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/job/post")
+ * @method User getUser()
  */
 class JobPostController extends AbstractController
 {
@@ -35,6 +36,7 @@ class JobPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $jobPost->setEmployer($this->getUser()->getRecruiter());
             $jobPostRepository->add($jobPost, true);
 
             return $this->redirectToRoute('app_job_post_index', [], Response::HTTP_SEE_OTHER);

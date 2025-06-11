@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\JobPost;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,11 +17,23 @@ class JobPostType extends AbstractType
             ->add('description')
             ->add('location')
             ->add('salary')
-            ->add('jobtype')
+            ->add('jobtype',ChoiceType::class,[
+                'choices'  => [
+                    'full-time' => 'full-time',
+                    'part-time' => 'part-time',
+                    'intership' => 'intership'
+                ],
+            ])
             ->add('deadline')
-            ->add('status')
-            ->add('createdAt')
-            ->add('employer')
+            ->add('status',ChoiceType::class,[
+               'choices'  => [
+                    'active' => 'active',
+                    'expire' => 'part-time',
+                    'closed' => 'closed'
+                ],
+            ])
+           
+            
         ;
     }
 

@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\JobPostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=JobPostRepository::class)
  */
 class JobPost
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -58,10 +62,6 @@ class JobPost
      */
     private $status;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $createdAt;
 
     public function getId(): ?int
     {
@@ -160,18 +160,6 @@ class JobPost
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
