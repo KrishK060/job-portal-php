@@ -50,6 +50,7 @@
 			<thead>
 				<tr>
 					<th>Id</th>
+					<th>Company Name</th>
 					<th>Title</th>
 					<th>Description</th>
 					<th>Location</th>
@@ -65,6 +66,7 @@
 				{% for job_post in jobs %}
 					<tr>
 						<td>{{ job_post.id }}</td>
+						<td>{{ job_post.employer }}</td>
 						<td>{{ job_post.title }}</td>
 						<td>{{ job_post.description }}</td>
 						<td>{{ job_post.location }}</td>
@@ -74,13 +76,13 @@
 						<td>{{ job_post.status }}</td>
 						<td>{{ job_post.createdAt ? job_post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 						<td>
-              {% if job_post == 'Applied' %}
-							<a href="#">applied</a>
+							{% if job_post.id in appliedJobs %}
+								<a href="#">{{ appliedJobs[job_post.id] }}</a>
 							{% else %}
-							<a href="{{ path('app_job_post_apply', {'id': job_post.id}) }}">apply</a>
+								<a href="{{ path('app_job_post_apply', {'id': job_post.id}) }}">apply</a>
 							{% endif %}
-
 						</td>
+
 					</tr>
 				{% else %}
 					<tr>

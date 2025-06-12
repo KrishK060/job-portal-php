@@ -43,6 +43,48 @@
 				</ul>
 			</div>
 		</nav>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>userName</th>
+					<th>Job</th>
+					<th>AppliedAt</th>
+					<th>Resume</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for application in applications %}
+					<tr>
+						<td>{{ application.id }}</td>
+						<td>{{ application.jobseeker }}</td>
+						<td>{{ application.job.title }}</td>
+						<td>{{ application.appliedAt ? application.appliedAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ application.jobseeker.Resume }}</td>
+						{% if application.status == 'Applied' %}
+						<td>
+							<a href="{{ path('app_application_accept', {'id': application.id}) }}">accept</a>
+							<a href="{{ path('app_application_reject', {'id': application.id}) }}">reject</a>
+						</td>
+						{% elseif application.status == 'Reject' %}
+							<td>
+								<a>Reject</a>
+							</td>
+						{% else %}
+						<td>
+							<a>Shortlisted</a>
+						</td>
+						{% endif %}
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 	</div>
 {% endblock %}

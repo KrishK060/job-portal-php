@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Applications;
 use App\Entity\JobPost;
 use App\Form\JobPostType;
+use App\Repository\ApplicationsRepository;
 use App\Repository\JobPostRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,8 +24,8 @@ class JobPostController extends AbstractController
      * @Route("/", name="app_job_post_index", methods={"GET"})
      */
     public function index(JobPostRepository $jobPostRepository): Response
-    {
-        return $this->render('job_post/index.html.twig', [
+    {   
+       return $this->render('job_post/index.html.twig', [
             'job_posts' => $jobPostRepository->findAll(),
         ]);
     }
@@ -106,12 +107,8 @@ class JobPostController extends AbstractController
         $application->setAppliedAt(new DateTimeImmutable());
         $application->setStatus('Applied');
         
-
         $entityManager->persist($application);
         $entityManager->flush();
-
-
-
 
         return $this->redirectToRoute('app_application');
     }
