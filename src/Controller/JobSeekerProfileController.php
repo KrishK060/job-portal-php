@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\JobSeekerProfile;
 use App\Form\JobSeekerProfileType;
 use App\Repository\JobSeekerProfileRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,17 +12,20 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/job/seeker/profile")
  */
-class JobSeekerProfileController extends AbstractController
+class JobSeekerProfileController extends BaseController
 {
     /**
      * @Route("/", name="app_job_seeker_profile_index", methods={"GET"})
      */
-    public function index(JobSeekerProfileRepository $jobSeekerProfileRepository): Response
+    public function index(): Response
     {
+        $jobSeekerProfile = $this->getUser()->getJobSeekerProfile();
+    
         return $this->render('job_seeker_profile/index.html.twig', [
-            'job_seeker_profiles' => $jobSeekerProfileRepository->findAll(),
+            'job_seeker_profiles' => [$jobSeekerProfile]
         ]);
     }
+    
 
     /**
      * @Route("/new", name="app_job_seeker_profile_new", methods={"GET", "POST"})
@@ -36,7 +38,7 @@ class JobSeekerProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
     
-            $jobSeekerProfile->setUser($this->getUser());
+            $jobSeekerProfile->setUser($this->getUser);
             $jobSeekerProfileRepository->add($jobSeekerProfile, true);
 
             return $this->redirectToRoute('app_job_seeker_profile_index', [], Response::HTTP_SEE_OTHER);
@@ -49,10 +51,12 @@ class JobSeekerProfileController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_job_seeker_profile_show", methods={"GET"})
+     * @Route("/profile", name="app_job_seeker_profile_show", methods={"GET"})
      */
     public function show(JobSeekerProfile $jobSeekerProfile): Response
     {
+        // dd( $this->getUser()->getJobSeekerProfile());
+        $jobSeekerProfile = $this->getUser()->getJobSeekerProfile();
         return $this->render('job_seeker_profile/show.html.twig', [
             'job_seeker_profile' => $jobSeekerProfile,
         ]);
@@ -72,7 +76,7 @@ class JobSeekerProfileController extends AbstractController
             return $this->redirectToRoute('app_job_seeker_profile_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('job_seeker_profile/edit.html.twig', [
+        return $this->renderForm('job_seeker_profile/new.html.twig', [
             'job_seeker_profile' => $jobSeekerProfile,
             'form' => $form,
         ]);

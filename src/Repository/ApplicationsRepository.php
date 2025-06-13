@@ -42,6 +42,17 @@ class ApplicationsRepository extends ServiceEntityRepository
         }
     }
 
+    // src/Repository/ApplicationsRepository.php
+
+public function findByJobPosts($jobPosts)
+{
+    return $this->createQueryBuilder('a')
+        ->andWhere('a.job IN (:jobPosts)')
+        ->setParameter('jobPosts', $jobPosts)
+        ->getQuery()
+        ->getResult();
+}
+
 
     //    public function findOneBySomeField($value): ?Applications
     //    {

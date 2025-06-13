@@ -24,8 +24,9 @@ class JobseekerController extends BaseController
         
         $appliedJobs = [];
         foreach ($applications as $application) {
-            $appliedJobs[$application->getJob()->getId()] = $application->getStatus();
+            $appliedJobs[] = $application->getJob()->getId();
         }
+        // dd($appliedJobs);
         
         return $this->render('jobseeker/index.html.twig', [
             'controller_name' => 'JobseekerController',
@@ -33,4 +34,6 @@ class JobseekerController extends BaseController
             'appliedJobs' => $appliedJobs
         ]);
     }
+
+
 }

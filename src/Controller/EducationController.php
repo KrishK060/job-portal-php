@@ -14,17 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/education")
  * @method User getUser()
  */
-class EducationController extends AbstractController
+class EducationController extends BaseController
 {
-    /**
-     * @Route("/", name="app_education_index", methods={"GET"})
-     */
-    public function index(EducationRepository $educationRepository): Response
-    {
-        return $this->render('education/index.html.twig', [
-            'education' => $educationRepository->findAll(),
-        ]);
-    }
+ /**
+ * @Route("/", name="app_education_index", methods={"GET"})
+ */
+public function index(EducationRepository $educationRepository): Response
+{
+    $jobSeekerProfile = $this->getUser()->getJobSeekerProfile();
+    $educationList = $jobSeekerProfile->getEducation(); 
+
+    return $this->render('education/index.html.twig', [
+        'education' => $educationList
+    ]);
+}
+
 
     /**
      * @Route("/new", name="app_education_new", methods={"GET", "POST"})

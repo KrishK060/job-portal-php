@@ -25,8 +25,10 @@ class JobPostController extends AbstractController
      */
     public function index(JobPostRepository $jobPostRepository): Response
     {   
+        $jobPost = $this->getUser()->getRecruiter()->getJobPosts();
+        // dd($jobPost);
        return $this->render('job_post/index.html.twig', [
-            'job_posts' => $jobPostRepository->findAll(),
+            'job_posts' => $jobPost,
         ]);
     }
 

@@ -14,15 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/recruiter/profile")
 
  */
-class RecruiterProfileController extends AbstractController
+class RecruiterProfileController extends BaseController
 {
     /**
      * @Route("/", name="app_recruiter_profile_index", methods={"GET"})
      */
     public function index(RecruiterRepository $recruiterRepository): Response
     {
+        $RecruiterProfile = $this->getUser()->getRecruiter();
         return $this->render('recruiter_profile/index.html.twig', [
-            'recruiters' => $recruiterRepository->findAll(),
+            'recruiters' => [$RecruiterProfile]
         ]);
     }
 

@@ -44,54 +44,59 @@
 					</li>
 				</ul>
 			</div>
-		</nav>
-		<h1>Hello Jobseeker</h1>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Company Name</th>
-					<th>Title</th>
-					<th>Description</th>
-					<th>Location</th>
-					<th>Salary</th>
-					<th>Jobtype</th>
-					<th>Deadline</th>
-					<th>Status</th>
-					<th>CreatedAt</th>
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for job_post in jobs %}
-					<tr>
-						<td>{{ job_post.id }}</td>
-						<td>{{ job_post.employer }}</td>
-						<td>{{ job_post.title }}</td>
-						<td>{{ job_post.description }}</td>
-						<td>{{ job_post.location }}</td>
-						<td>{{ job_post.salary }}</td>
-						<td>{{ job_post.jobtype }}</td>
-						<td>{{ job_post.deadline ? job_post.deadline|date('Y-m-d') : '' }}</td>
-						<td>{{ job_post.status }}</td>
-						<td>{{ job_post.createdAt ? job_post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-						<td>
-							{% if job_post.id in appliedJobs %}
-								<a href="#">{{ appliedJobs[job_post.id] }}</a>
-							{% else %}
-								<a href="{{ path('app_job_post_apply', {'id': job_post.id}) }}">apply</a>
-							{% endif %}
-						</td>
+			{% if app.user %}
+				<div class="mb-3">
+					<a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">Logout</a>
+			{% else %}
+			{% endif %}
+				</nav>
+				<h1>Hello Jobseeker</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Company Name</th>
+							<th>Title</th>
+							<th>Description</th>
+							<th>Location</th>
+							<th>Salary</th>
+							<th>Jobtype</th>
+							<th>Deadline</th>
+							<th>Status</th>
+							<th>CreatedAt</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for job_post in jobs %}
+							<tr>
+								<td>{{ job_post.id }}</td>
+								<td>{{ job_post.employer }}</td>
+								<td>{{ job_post.title }}</td>
+								<td>{{ job_post.description }}</td>
+								<td>{{ job_post.location }}</td>
+								<td>{{ job_post.salary }}</td>
+								<td>{{ job_post.jobtype }}</td>
+								<td>{{ job_post.deadline ? job_post.deadline|date('Y-m-d') : '' }}</td>
+								<td>{{ job_post.status }}</td>
+								<td>{{ job_post.createdAt ? job_post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+								<td>
+									{% if job_post.id in appliedJobs %}
+										<a href="#">applied</a>
+									{% else %}
+										<a href="{{ path('app_job_post_apply', {'id': job_post.id}) }}">apply</a>
+									{% endif %}
+								</td>
 
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="10">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="10">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 
 
-	</div>
-{% endblock %}
+			</div>
+		{% endblock %}

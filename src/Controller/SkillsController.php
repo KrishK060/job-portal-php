@@ -21,8 +21,10 @@ class SkillsController extends AbstractController
      */
     public function index(SkillsRepository $skillsRepository): Response
     {
+        $jobSeekerProfile = $this->getUser()->getJobSeekerProfile();
+        $skillList = $jobSeekerProfile->getSkills();
         return $this->render('skills/index.html.twig', [
-            'skills' => $skillsRepository->findAll(),
+            'skills' => $skillList,
         ]);
     }
 
