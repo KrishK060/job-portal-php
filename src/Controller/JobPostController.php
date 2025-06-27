@@ -8,6 +8,7 @@ use App\Form\JobPostType;
 use App\Repository\ApplicationsRepository;
 use App\Repository\JobPostRepository;
 use DateTimeImmutable;
+use Doctrine\DBAL\Schema\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,7 +108,7 @@ class JobPostController extends AbstractController
         $application->setJob($jobPost);
         $application->setJobseeker($this->getUser()->getJobSeekerProfile());
         $application->setAppliedAt(new DateTimeImmutable());
-        $application->setStatus('Applied');
+        // $application->setStatus('Applied');      
         
         $entityManager->persist($application);
         $entityManager->flush();

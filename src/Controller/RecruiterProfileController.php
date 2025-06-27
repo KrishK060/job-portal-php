@@ -88,7 +88,6 @@ class RecruiterProfileController extends BaseController
         if ($this->isCsrfTokenValid('delete'.$recruiter->getId(), $request->request->get('_token'))) {
             $recruiterRepository->remove($recruiter, true);
         }
-
         return $this->redirectToRoute('app_recruiter_profile_index', [], Response::HTTP_SEE_OTHER);
     }
 }
