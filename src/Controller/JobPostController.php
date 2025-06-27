@@ -108,7 +108,7 @@ class JobPostController extends AbstractController
         $application->setJob($jobPost);
         $application->setJobseeker($this->getUser()->getJobSeekerProfile());
         $application->setAppliedAt(new DateTimeImmutable());
-        // $application->setStatus('Applied');      
+        $application->setStatus('Applied');      
         
         $entityManager->persist($application);
         $entityManager->flush();
