@@ -3,6 +3,8 @@
 {% block title %}Hello HomePageController!{% endblock %}
 
 {% block body %}
+<link href="/assets/styles/homepage.css" rel="stylesheet">
+
  <h1>Welcome to the job portal app. Please Register or Login yourself here</h1>
 
  {% if app.user %}
@@ -11,7 +13,6 @@
  {% else %}
         <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-sm">Login</a>
         <a href="{{ path('app_register') }}" class="btn btn-outline-primary btn-sm">Register</a>
-        
     </div>
  {% endif %}
 {% endblock %}

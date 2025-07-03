@@ -52,7 +52,7 @@ public function findByJobPosts($jobPosts)
         ->getQuery()
         ->getResult();
 }
-
+//  public function findUserApplication($)
 
     //    public function findOneBySomeField($value): ?Applications
     //    {

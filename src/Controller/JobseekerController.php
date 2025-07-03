@@ -34,6 +34,4 @@ class JobseekerController extends BaseController
             'appliedJobs' => $appliedJobs
         ]);
     }
-
-
 }

@@ -50,4 +50,31 @@ class ApplicationController extends BaseController
 
         return $this->redirectToRoute('app_recruiter');
     }
+
+    /**
+     * @Route("/application/status/{id}", name="app_jobapplication_status")
+     */
+public function applicationStatus(ApplicationsRepository $applicationsRepo,Applications $applications): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('You are not logged in.');
+        }
+
+        $jobSeekerProfile = $user->getJobSeekerProfile();
+
+        if (!$jobSeekerProfile) {
+            throw $this->createNotFoundException('Job seeker profile not found.');
+        }
+
+        $applications = $applicationsRepo->findBy([
+            'jobseeker' => $jobSeekerProfile,
+        ]);
+
+        return $this->render('job_seeker_profile/status.html.twig', [
+            'applications' => $applications,
+        ]);
+    }
+
 }
